@@ -1,0 +1,1300 @@
+<html>
+	<head>
+		<title>CrashDataVisualisation</title>
+		<style type="text/css">
+		#heatmap_chart {
+					width: 100%;
+					height: 500px;
+				  }
+				  
+		#racechart {
+			  width: 100%;
+			  height: 500px;
+			}
+				  
+			#banner_1{
+						font-family: Helvetica ;
+						}
+			#banner_2{
+						font-family: Helvetica ;
+						}
+			#banner_3{
+						font-family: Helvetica ;
+						}
+			#banner_4{
+						font-family: Helvetica ;
+						}			
+						
+			#crashinfo
+			{
+						font-family: Helvetica ;
+						}
+
+			#racechart_findings
+			
+			#crashdashboard
+			
+			#racechart_findings
+			
+			#weather_findings
+
+		</style>
+</head>
+
+<body>
+
+
+  <div id="banner_1">
+    <h1 >New York City Crash Analysis</h1>
+  </div>
+ 
+
+
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<div id="racechart"></div>
+<div id= "crashinfo" >
+<p>
+The above data is a race chart of no of crashes in Ney York City regions for the time period of 2012-2022.
+It also shows that crashes during 2012 to 2019 were more than the time period of 2020-2022.  
+
+</p>
+<div>
+
+ <div id="banner_2" >
+    <h1> Crash Dashboard </h1>
+  </div>
+
+<iframe title="CrashData" width="100%" height="700px" src="https://app.powerbi.com/view?r=eyJrIjoiMjE3MDFiZDYtMzZlNC00ODgzLTkzMmItNGQwOTkyODE2MjBjIiwidCI6IjI4NjY4Y2EzLWYwYzktNDllMy05MjE3LWJmYjYyZWU0Njg0ZiJ9&pageName=ReportSection5059201179079c607b49" frameborder="0" allowFullScreen="true"></iframe>
+
+<div id="crashdashboard" >
+<p>
+<h4>Crash Dashboard Analysis</h4>
+<li>More Pedestrians are killed than cyclists and motorists  </li>
+<li>More Motorists ar injured than cyclists and pedestrians   </li>
+<li>Injuries are more than kills  </li>
+<li>Most collision are occured due to Sedan Vehicle type  </li>
+<li>Most collisions are Brooklyn amongst all the regions  </li>
+</p>
+<div>
+
+<div id="banner_3">
+    <h1> Distribution of No of Crashes </h1>
+  </div>
+  
+ 
+
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<div id="heatmap_chart"></div>
+
+
+<div id="racechart_findings">
+   
+<p>
+<h4>From the heat chart we can conclude that</h4>
+<li> Most of the crashes happens on Fiday at 5PM   </li>
+<li> Least of the crashes happens on Tuesday 3AM </li>
+<li> We can also infer that crashes are most likiely to happen between 8AM to 6PM.</li>
+</p>
+   
+</div>
+
+
+
+ <div id="banner_4">
+    <h1> Weather Dashboard </h1>
+  </div>
+
+<iframe title="WeatherEDA" width="100%" height="700px" src="https://app.powerbi.com/view?r=eyJrIjoiYzdlY2EzOGItYjFkZS00ZTlmLTk5ODMtY2Y1N2MwNDI1NjAyIiwidCI6IjI4NjY4Y2EzLWYwYzktNDllMy05MjE3LWJmYjYyZWU0Njg0ZiJ9&pageName=ReportSectione4d8b629d60199e42a03" frameborder="0" allowFullScreen="true"></iframe>
+
+<div id = "weather_findings">
+<p><h4>Weather Dashboard  Analysis</h4>
+<li>NYC has Mostly cloudy weather most amongs all conditions </li>
+<li>Visibility is lowest at 1700hr when humidity is highest </li>
+<li> Humidity is highest at 1500hr  </li>
+<li> Precipitation rate varies throughout the day being highest at 500hr and lowest at 1000hrs </li>
+<li>July and August month have high high humidity and dewpoint </li>
+</p>
+</div>
+
+
+<!-- <div id ="ML_findings">
+<h1>Machine learning stats</h1>
+</div> -->
+
+
+</body>
+
+
+<script>
+/**
+ * ---------------------------------------
+ * This demo was created using amCharts 5.
+ * 
+ * For more information visit:
+ * https://www.amcharts.com/
+ * 
+ * Documentation is available at:
+ * https://www.amcharts.com/docs/v5/
+ * ---------------------------------------
+ */
+
+// Create root element
+// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+var root = am5.Root.new("heatmap_chart");
+
+
+// Set themes
+// https://www.amcharts.com/docs/v5/concepts/themes/
+root.setThemes([
+  am5themes_Animated.new(root)
+]);
+
+
+// Create chart
+// https://www.amcharts.com/docs/v5/charts/xy-chart/
+var chart = root.container.children.push(am5xy.XYChart.new(root, {
+  panX: false,
+  panY: false,
+  wheelX: "none",
+  wheelY: "none",
+  layout: root.verticalLayout
+}));
+
+
+// Create axes and their renderers
+var yRenderer = am5xy.AxisRendererY.new(root, {
+  visible: false,
+  minGridDistance: 20,
+  inversed: true
+});
+
+yRenderer.grid.template.set("visible", false);
+
+var yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
+  maxDeviation: 0,
+  renderer: yRenderer,
+  categoryField: "weekday"
+}));
+
+var xRenderer = am5xy.AxisRendererX.new(root, {
+  visible: false,
+  minGridDistance: 30,
+  opposite:true
+});
+
+xRenderer.grid.template.set("visible", false);
+
+var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+  renderer: xRenderer,
+  categoryField: "hour"
+}));
+
+
+// Create series
+// https://www.amcharts.com/docs/v5/charts/xy-chart/#Adding_series
+var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+  calculateAggregates: true,
+  stroke: am5.color(0xffffff),
+  clustered: false,
+  xAxis: xAxis,
+  yAxis: yAxis,
+  categoryXField: "hour",
+  categoryYField: "weekday",
+  valueField: "value"
+}));
+
+series.columns.template.setAll({
+  tooltipText: "{value}",
+  strokeOpacity: 1,
+  strokeWidth: 2,
+  width: am5.percent(100),
+  height: am5.percent(100)
+});
+
+series.columns.template.events.on("pointerover", function(event) {
+  var di = event.target.dataItem;
+  if (di) {
+    heatLegend.showValue(di.get("value", 0));
+  }
+});
+
+series.events.on("datavalidated", function() {
+  heatLegend.set("startValue", series.getPrivate("valueHigh"));
+  heatLegend.set("endValue", series.getPrivate("valueLow"));
+});
+
+
+// Set up heat rules
+// https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
+series.set("heatRules", [{
+  target: series.columns.template,
+  min: am5.color(0xfffb77),
+  max: am5.color(0xfe131a),
+  dataField: "value",
+  key: "fill"
+}]);
+
+
+// Add heat legend
+// https://www.amcharts.com/docs/v5/concepts/legend/heat-legend/
+var heatLegend = chart.bottomAxesContainer.children.push(am5.HeatLegend.new(root, {
+  orientation: "horizontal",
+  endColor: am5.color(0xfffb77),
+  startColor: am5.color(0xfe131a)
+}));
+
+
+// Set data
+// https://www.amcharts.com/docs/v5/charts/xy-chart/#Setting_data
+var data = [{
+  hour: "12pm",
+  weekday: "Sunday",
+  value: 11583
+}, {
+  hour: "1am",
+  weekday: "Sunday",
+  value: 8151
+}, {
+  hour: "2am",
+  weekday: "Sunday",
+  value: 6652
+}, {
+  hour: "3am",
+  weekday: "Sunday",
+  value: 6328
+}, {
+  hour: "4am",
+  weekday: "Sunday",
+  value: 7159
+}, {
+  hour: "5am",
+  weekday: "Sunday",
+  value: 5617
+}, {
+  hour: "6am",
+  weekday: "Sunday",
+  value: 4370
+}, {
+  hour: "7am",
+  weekday: "Sunday",
+  value: 3856
+}, {
+  hour: "8am",
+  weekday: "Sunday",
+  value: 5988
+}, {
+  hour: "9am",
+  weekday: "Sunday",
+  value: 7028
+}, {
+  hour: "10am",
+  weekday: "Sunday",
+  value: 8892
+}, {
+  hour: "11am",
+  weekday: "Sunday",
+  value: 10797
+}, {
+  hour: "12am",
+  weekday: "Sunday",
+  value: 12336
+}, {
+  hour: "1pm",
+  weekday: "Sunday",
+  value: 13816
+}, {
+  hour: "2pm",
+  weekday: "Sunday",
+  value: 16011
+}, {
+  hour: "3pm",
+  weekday: "Sunday",
+  value: 14162
+}, {
+  hour: "4pm",
+  weekday: "Sunday",
+  value: 15925
+}, {
+  hour: "5pm",
+  weekday: "Sunday",
+  value: 14699
+}, {
+  hour: "6pm",
+  weekday: "Sunday",
+  value: 13598
+}, {
+  hour: "7pm",
+  weekday: "Sunday",
+  value: 12011
+}, {
+  hour: "8pm",
+  weekday: "Sunday",
+  value: 10791
+}, {
+  hour: "9pm",
+  weekday: "Sunday",
+  value: 9642
+}, {
+  hour: "10pm",
+  weekday: "Sunday",
+  value: 8881
+}, {
+  hour: "11pm",
+  weekday: "Sunday",
+  value: 7143
+}, {
+  hour: "12pm",
+  weekday: "Monday",
+  value: 8029
+}, {
+  hour: "1am",
+  weekday: "Monday",
+  value: 3831
+}, {
+  hour: "2am",
+  weekday: "Monday",
+  value: 2721
+}, {
+  hour: "3am",
+  weekday: "Monday",
+  value: 2215
+}, {
+  hour: "4am",
+  weekday: "Monday",
+  value: 2702
+}, {
+  hour: "5am",
+  weekday: "Monday",
+  value: 3664
+}, {
+  hour: "6am",
+  weekday: "Monday",
+  value: 7039
+}, {
+  hour: "7am",
+  weekday: "Monday",
+  value: 10126
+}, {
+  hour: "8am",
+  weekday: "Monday",
+  value: 18625
+}, {
+  hour: "9am",
+  weekday: "Monday",
+  value: 17457
+}, {
+  hour: "10am",
+  weekday: "Monday",
+  value: 15442
+}, {
+  hour: "11am",
+  weekday: "Monday",
+  value: 15534
+}, {
+  hour: "12am",
+  weekday: "Monday",
+  value: 15863
+}, {
+  hour: "1pm",
+  weekday: "Monday",
+  value: 16409
+}, {
+  hour: "2pm",
+  weekday: "Monday",
+  value: 18774
+}, {
+  hour: "3pm",
+  weekday: "Monday",
+  value: 18051
+}, {
+  hour: "4pm",
+  weekday: "Monday",
+  value: 21141
+}, {
+  hour: "5pm",
+  weekday: "Monday",
+  value: 20488
+}, {
+  hour: "6pm",
+  weekday: "Monday",
+  value: 17376
+}, {
+  hour: "7pm",
+  weekday: "Monday",
+  value: 13573
+}, {
+  hour: "8pm",
+  weekday: "Monday",
+  value: 10774
+}, {
+  hour: "9pm",
+  weekday: "Monday",
+  value: 8697
+}, {
+  hour: "10pm",
+  weekday: "Monday",
+  value: 7422
+}, {
+  hour: "11pm",
+  weekday: "Monday",
+  value: 5936
+}, {
+  hour: "12pm",
+  weekday: "Tuesday",
+  value: 7056
+}, {
+  hour: "1am",
+  weekday: "Tuesday",
+  value: 2953
+}, {
+  hour: "2am",
+  weekday: "Tuesday",
+  value: 2093
+}, {
+  hour: "3am",
+  weekday: "Tuesday",
+  value: 1695
+}, {
+  hour: "4am",
+  weekday: "Tuesday",
+  value: 1852
+}, {
+  hour: "5am",
+  weekday: "Tuesday",
+  value: 3246
+}, {
+  hour: "6am",
+  weekday: "Tuesday",
+  value: 6898
+}, {
+  hour: "7am",
+  weekday: "Tuesday",
+  value: 10399
+}, {
+  hour: "8am",
+  weekday: "Tuesday",
+  value: 19589
+}, {
+  hour: "9am",
+  weekday: "Tuesday",
+  value: 18586
+}, {
+  hour: "10am",
+  weekday: "Tuesday",
+  value: 16221
+}, {
+  hour: "11am",
+  weekday: "Tuesday",
+  value: 16145
+}, {
+  hour: "12am",
+  weekday: "Tuesday",
+  value: 16472
+}, {
+  hour: "1pm",
+  weekday: "Tuesday",
+  value: 17099
+}, {
+  hour: "2pm",
+  weekday: "Tuesday",
+  value: 19525
+}, {
+  hour: "3pm",
+  weekday: "Tuesday",
+  value: 18429
+}, {
+  hour: "4pm",
+  weekday: "Tuesday",
+  value: 21759
+}, {
+  hour: "5pm",
+  weekday: "Tuesday",
+  value: 21707
+}, {
+  hour: "6pm",
+  weekday: "Tuesday",
+  value: 18676
+}, {
+  hour: "7pm",
+  weekday: "Tuesday",
+  value: 14733
+}, {
+  hour: "8pm",
+  weekday: "Tuesday",
+  value: 11643
+}, {
+  hour: "9pm",
+  weekday: "Tuesday",
+  value: 9343
+}, {
+  hour: "10pm",
+  weekday: "Tuesday",
+  value: 8204
+}, {
+  hour: "11pm",
+  weekday: "Tuesday",
+  value: 6624
+}, {
+  hour: "12pm",
+  weekday: "Wednesday",
+  value: 7311
+}, {
+  hour: "1am",
+  weekday: "Wednesday",
+  value: 3250
+}, {
+  hour: "2am",
+  weekday: "Wednesday",
+  value: 2202
+}, {
+  hour: "3am",
+  weekday: "Wednesday",
+  value: 1851
+}, {
+  hour: "4am",
+  weekday: "Wednesday",
+  value: 2075
+}, {
+  hour: "5am",
+  weekday: "Wednesday",
+  value: 3189
+}, {
+  hour: "6am",
+  weekday: "Wednesday",
+  value: 6710
+}, {
+  hour: "7am",
+  weekday: "Wednesday",
+  value: 10269
+}, {
+  hour: "8am",
+  weekday: "Wednesday",
+  value: 18881
+}, {
+  hour: "9am",
+  weekday: "Wednesday",
+  value: 17222
+}, {
+  hour: "10am",
+  weekday: "Wednesday",
+  value: 15280
+}, {
+  hour: "11am",
+  weekday: "Wednesday",
+  value: 15096
+}, {
+  hour: "12am",
+  weekday: "Wednesday",
+  value: 16122
+}, {
+  hour: "1pm",
+  weekday: "Wednesday",
+  value: 16520
+}, {
+  hour: "2pm",
+  weekday: "Wednesday",
+  value: 19826
+}, {
+  hour: "3pm",
+  weekday: "Wednesday",
+  value: 18699
+}, {
+  hour: "4pm",
+  weekday: "Wednesday",
+  value: 21553
+}, {
+  hour: "5pm",
+  weekday: "Wednesday",
+  value: 21597
+}, {
+  hour: "6pm",
+  weekday: "Wednesday",
+  value: 19132
+}, {
+  hour: "7pm",
+  weekday: "Wednesday",
+  value: 15007
+}, {
+  hour: "8pm",
+  weekday: "Wednesday",
+  value: 11791
+}, {
+  hour: "9pm",
+  weekday: "Wednesday",
+  value: 9797
+}, {
+  hour: "10pm",
+  weekday: "Wednesday",
+  value: 8654
+}, {
+  hour: "11pm",
+  weekday: "Wednesday",
+  value: 6779
+}, {
+  hour: "12pm",
+  weekday: "Thursday",
+  value: 7904
+}, {
+  hour: "1am",
+  weekday: "Thursday",
+  value: 3453
+}, {
+  hour: "2am",
+  weekday: "Thursday",
+  value: 2508
+}, {
+  hour: "3am",
+  weekday: "Thursday",
+  value: 2052
+}, {
+  hour: "4am",
+  weekday: "Thursday",
+  value: 2347
+}, {
+  hour: "5am",
+  weekday: "Thursday",
+  value: 3287
+}, {
+  hour: "6am",
+  weekday: "Thursday",
+  value: 6625
+}, {
+  hour: "7am",
+  weekday: "Thursday",
+  value: 9922
+}, {
+  hour: "8am",
+  weekday: "Thursday",
+  value: 19076
+}, {
+  hour: "9am",
+  weekday: "Thursday",
+  value: 17876
+}, {
+  hour: "10am",
+  weekday: "Thursday",
+  value: 15687
+}, {
+  hour: "11am",
+  weekday: "Thursday",
+  value: 15783
+}, {
+  hour: "12am",
+  weekday: "Thursday",
+  value: 16406
+}, {
+  hour: "1pm",
+  weekday: "Thursday",
+  value: 16993
+}, {
+  hour: "2pm",
+  weekday: "Thursday",
+  value: 19579
+}, {
+  hour: "3pm",
+  weekday: "Thursday",
+  value: 18599
+}, {
+  hour: "4pm",
+  weekday: "Thursday",
+  value: 21739
+}, {
+  hour: "5pm",
+  weekday: "Thursday",
+  value: 21761
+}, {
+  hour: "6pm",
+  weekday: "Thursday",
+  value: 18859
+}, {
+  hour: "7pm",
+  weekday: "Thursday",
+  value: 15180
+}, {
+  hour: "8pm",
+  weekday: "Thursday",
+  value: 12479
+}, {
+  hour: "9pm",
+  weekday: "Thursday",
+  value: 10426
+}, {
+  hour: "10pm",
+  weekday: "Thursday",
+  value: 9345
+}, {
+  hour: "11pm",
+  weekday: "Thursday",
+  value: 7502
+}, {
+  hour: "12pm",
+  weekday: "Friday",
+  value: 9066
+}, {
+  hour: "1am",
+  weekday: "Friday",
+  value: 4409
+}, {
+  hour: "2am",
+  weekday: "Friday",
+  value: 3257
+}, {
+  hour: "3am",
+  weekday: "Friday",
+  value: 2598
+}, {
+  hour: "4am",
+  weekday: "Friday",
+  value: 2996
+}, {
+  hour: "5am",
+  weekday: "Friday",
+  value: 3675
+}, {
+  hour: "6am",
+  weekday: "Friday",
+  value: 6991
+}, {
+  hour: "7am",
+  weekday: "Friday",
+  value: 9913
+}, {
+  hour: "8am",
+  weekday: "Friday",
+  value: 18208
+}, {
+  hour: "9am",
+  weekday: "Friday",
+  value: 17419
+}, {
+  hour: "10am",
+  weekday: "Friday",
+  value: 15372
+}, {
+  hour: "11am",
+  weekday: "Friday",
+  value: 16016
+}, {
+  hour: "12am",
+  weekday: "Friday",
+  value: 17159
+}, {
+  hour: "1pm",
+  weekday: "Friday",
+  value: 17865
+}, {
+  hour: "2pm",
+  weekday: "Friday",
+  value: 21269
+}, {
+  hour: "3pm",
+  weekday: "Friday",
+  value: 20647
+}, {
+  hour: "4pm",
+  weekday: "Friday",
+  value: 23121
+}, {
+  hour: "5pm",
+  weekday: "Friday",
+  value: 23099
+}, {
+  hour: "6pm",
+  weekday: "Friday",
+  value: 19891
+}, {
+  hour: "7pm",
+  weekday: "Friday",
+  value: 16411
+}, {
+  hour: "8pm",
+  weekday: "Friday",
+  value: 13716
+}, {
+  hour: "9pm",
+  weekday: "Friday",
+  value: 11450
+}, {
+  hour: "10pm",
+  weekday: "Friday",
+  value: 10823
+}, {
+  hour: "11pm",
+  weekday: "Friday",
+  value: 9756
+}, {
+  hour: "12pm",
+  weekday: "Saturday",
+  value: 11331
+}, {
+  hour: "1am",
+  weekday: "Saturday",
+  value: 7404
+}, {
+  hour: "2am",
+  weekday: "Saturday",
+  value: 6197
+}, {
+  hour: "3am",
+  weekday: "Saturday",
+  value: 5705
+}, {
+  hour: "4am",
+  weekday: "Saturday",
+  value: 6265
+}, {
+  hour: "5am",
+  weekday: "Saturday",
+  value: 5098
+}, {
+  hour: "6am",
+  weekday: "Saturday",
+  value: 4799
+}, {
+  hour: "7am",
+  weekday: "Saturday",
+  value: 4743
+}, {
+  hour: "8am",
+  weekday: "Saturday",
+  value: 8184
+}, {
+  hour: "9am",
+  weekday: "Saturday",
+  value: 9608
+}, {
+  hour: "10am",
+  weekday: "Saturday",
+  value: 11325
+}, {
+  hour: "11am",
+  weekday: "Saturday",
+  value: 13153
+}, {
+  hour: "12am",
+  weekday: "Saturday",
+  value:  14546
+}, {
+  hour: "1pm",
+  weekday: "Saturday",
+  value: 15837
+}, {
+  hour: "2pm",
+  weekday: "Saturday",
+  value: 17446
+}, {
+  hour: "3pm",
+  weekday: "Saturday",
+  value: 15337
+}, {
+  hour: "4pm",
+  weekday: "Saturday",
+  value: 17756
+}, {
+  hour: "5pm",
+  weekday: "Saturday",
+  value: 16453
+}, {
+  hour: "6pm",
+  weekday: "Saturday",
+  value: 15418
+}, {
+  hour: "7pm",
+  weekday: "Saturday",
+  value: 13495
+}, {
+  hour: "8pm",
+  weekday: "Saturday",
+  value: 12478
+}, {
+  hour: "9pm",
+  weekday: "Saturday",
+  value: 11330
+}, {
+  hour: "10pm",
+  weekday: "Saturday",
+  value: 11115
+}, {
+  hour: "11pm",
+  weekday: "Saturday",
+  value: 10135
+}
+]
+
+series.data.setAll(data);
+
+yAxis.data.setAll([
+  { weekday: "Sunday" },
+  { weekday: "Monday" },
+  { weekday: "Tuesday" },
+  { weekday: "Wednesday" },
+  { weekday: "Thursday" },
+  { weekday: "Friday" },
+  { weekday: "Saturday" }
+]);
+
+xAxis.data.setAll([
+  { hour: "12pm" },
+  { hour: "1am" },
+  { hour: "2am" },
+  { hour: "3am" },
+  { hour: "4am" },
+  { hour: "5am" },
+  { hour: "6am" },
+  { hour: "7am" },
+  { hour: "8am" },
+  { hour: "9am" },
+  { hour: "10am" },
+  { hour: "11am" },
+  { hour: "12am" },
+  { hour: "1pm" },
+  { hour: "2pm" },
+  { hour: "3pm" },
+  { hour: "4pm" },
+  { hour: "5pm" },
+  { hour: "6pm" },
+  { hour: "7pm" },
+  { hour: "8pm" },
+  { hour: "9pm" },
+  { hour: "10pm" },
+  { hour: "11pm" }
+]);
+
+// Make stuff animate on load
+// https://www.amcharts.com/docs/v5/concepts/animations/#Initial_animation
+chart.appear(1000, 100);
+</script>
+
+<script>
+/**
+ * ---------------------------------------
+ * This demo was created using amCharts 5.
+ * 
+ * For more information visit:
+ * https://www.amcharts.com/
+ * 
+ * Documentation is available at:
+ * https://www.amcharts.com/docs/v5/
+ * ---------------------------------------
+ */
+
+// Data
+var allData = {
+  "2012": {
+    "Brooklyn": 23305,
+    "Bronx": 9511,
+    "Manhattan": 20720,
+    "Queens": 19318,
+   "Staten Island": 4902 
+  },
+ "2013": {
+    "Brooklyn": 47020,
+    "Bronx": 19768,
+    "Manhattan": 41581,
+    "Queens": 39309,
+   "Staten Island": 8295 
+  },
+  "2014": {
+    "Brooklyn": 47758,
+    "Bronx": 19688,
+    "Manhattan": 41267,
+    "Queens": 41021,
+   "Staten Island": 6614
+  },
+  "2015": {
+    "Brooklyn": 50847,
+    "Bronx": 21258,
+    "Manhattan": 42525,
+    "Queens": 42489,
+   "Staten Island": 6344 
+  },
+  "2016": {
+    "Brooklyn": 47464,
+    "Bronx": 21660,
+    "Manhattan": 36077,
+    "Queens": 41394,
+   "Staten Island": 6709  
+  },
+  "2017": {
+    "Brooklyn": 44915,
+    "Bronx": 21397,
+    "Manhattan": 31774,
+    "Queens": 38627,
+   "Staten Island": 6241 
+  },
+  "2018": {
+    "Brooklyn": 47313,
+    "Bronx": 23060,
+    "Manhattan": 31412,
+    "Queens": 41278,
+   "Staten Island": 6171 
+  },
+   "2019": {
+    "Brooklyn": 44479,
+    "Bronx": 22437,
+    "Manhattan": 26593,
+    "Queens": 39685,
+   "Staten Island": 3650
+  },
+   "2020": {
+    "Brooklyn": 25472,
+    "Bronx": 14306,
+    "Manhattan": 10855,
+    "Queens": 20666,
+   "Staten Island": 2388 
+  },
+   "2021": {
+    "Brooklyn": 25169,
+    "Bronx": 13389,
+    "Manhattan": 11429,
+    "Queens": 19562,
+   "Staten Island":2665 
+  },
+   "2022": {
+    "Brooklyn": 23331,
+    "Bronx": 12275,
+    "Manhattan": 11959,
+    "Queens": 18412,
+   "Staten Island": 2719 
+  } 
+};
+
+
+// Create root element
+// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+var root = am5.Root.new("racechart");
+
+root.numberFormatter.setAll({
+  numberFormat: "#a",
+
+  // Group only into M (millions), and B (billions)
+  bigNumberPrefixes: [
+    { number: 1e6, suffix: "M" },
+    { number: 1e9, suffix: "B" }
+  ],
+
+  // Do not use small number prefixes at all
+  smallNumberPrefixes: []
+});
+
+var stepDuration = 2000;
+
+
+// Set themes
+// https://www.amcharts.com/docs/v5/concepts/themes/
+root.setThemes([am5themes_Animated.new(root)]);
+
+
+// Create chart
+// https://www.amcharts.com/docs/v5/charts/xy-chart/
+var chart = root.container.children.push(am5xy.XYChart.new(root, {
+  panX: true,
+  panY: true,
+  wheelX: "none",
+  wheelY: "none"
+}));
+
+
+// We don't want zoom-out button to appear while animating, so we hide it at all
+chart.zoomOutButton.set("forceHidden", true);
+
+
+// Create axes
+// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+var yRenderer = am5xy.AxisRendererY.new(root, {
+  minGridDistance: 20,
+  inversed: true
+});
+// hide grid
+yRenderer.grid.template.set("visible", false);
+
+var yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
+  maxDeviation: 0,
+  categoryField: "network",
+  renderer: yRenderer
+}));
+
+var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
+  maxDeviation: 0,
+  min: 0,
+  strictMinMax: true,
+  extraMax: 0.1,
+  renderer: am5xy.AxisRendererX.new(root, {})
+}));
+
+xAxis.set("interpolationDuration", stepDuration / 10);
+xAxis.set("interpolationEasing", am5.ease.linear);
+
+
+// Add series
+// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+  xAxis: xAxis,
+  yAxis: yAxis,
+  valueXField: "value",
+  categoryYField: "network"
+}));
+
+// Rounded corners for columns
+series.columns.template.setAll({ cornerRadiusBR: 5, cornerRadiusTR: 5 });
+
+// Make each column to be of a different color
+series.columns.template.adapters.add("fill", function (fill, target) {
+  return chart.get("colors").getIndex(series.columns.indexOf(target));
+});
+
+series.columns.template.adapters.add("stroke", function (stroke, target) {
+  return chart.get("colors").getIndex(series.columns.indexOf(target));
+});
+
+// Add label bullet
+series.bullets.push(function () {
+  return am5.Bullet.new(root, {
+    locationX: 1,
+    sprite: am5.Label.new(root, {
+      text: "{valueXWorking.formatNumber('#.# a')}",
+      fill: root.interfaceColors.get("alternativeText"),
+      centerX: am5.p100,
+      centerY: am5.p50,
+      populateText: true
+    })
+  });
+});
+
+var label = chart.plotContainer.children.push(am5.Label.new(root, {
+  text: "2002",
+  fontSize: "8em",
+  opacity: 0.2,
+  x: am5.p100,
+  y: am5.p100,
+  centerY: am5.p100,
+  centerX: am5.p100
+}));
+
+// Get series item by category
+function getSeriesItem(category) {
+  for (var i = 0; i < series.dataItems.length; i++) {
+    var dataItem = series.dataItems[i];
+    if (dataItem.get("categoryY") == category) {
+      return dataItem;
+    }
+  }
+}
+
+// Axis sorting
+function sortCategoryAxis() {
+  // sort by value
+  series.dataItems.sort(function (x, y) {
+    return y.get("valueX") - x.get("valueX"); // descending
+    //return x.get("valueX") - y.get("valueX"); // ascending
+  });
+
+  // go through each axis item
+  am5.array.each(yAxis.dataItems, function (dataItem) {
+    // get corresponding series item
+    var seriesDataItem = getSeriesItem(dataItem.get("category"));
+
+    if (seriesDataItem) {
+      // get index of series data item
+      var index = series.dataItems.indexOf(seriesDataItem);
+      // calculate delta position
+      var deltaPosition =
+        (index - dataItem.get("index", 0)) / series.dataItems.length;
+      // set index to be the same as series data item index
+      if (dataItem.get("index") != index) {
+        dataItem.set("index", index);
+        // set deltaPosition instanlty
+        dataItem.set("deltaPosition", -deltaPosition);
+        // animate delta position to 0
+        dataItem.animate({
+          key: "deltaPosition",
+          to: 0,
+          duration: stepDuration / 2,
+          easing: am5.ease.out(am5.ease.cubic)
+        });
+      }
+    }
+  });
+  // sort axis items by index.
+  // This changes the order instantly, but as deltaPosition is set, they keep in the same places and then animate to true positions.
+  yAxis.dataItems.sort(function (x, y) {
+    return x.get("index") - y.get("index");
+  });
+}
+
+var year = 2012;
+
+// update data with values each 1.5 sec
+var interval = setInterval(function () {
+  year++;
+
+  if (year > 2022) {
+    clearInterval(interval);
+    clearInterval(sortInterval);
+  }
+
+  updateData();
+}, stepDuration);
+
+var sortInterval = setInterval(function () {
+  sortCategoryAxis();
+}, 100);
+
+function setInitialData() {
+  var d = allData[year];
+
+  for (var n in d) {
+    series.data.push({ network: n, value: d[n] });
+    yAxis.data.push({ network: n });
+  }
+}
+
+function updateData() {
+  var itemsWithNonZero = 0;
+
+  if (allData[year]) {
+    label.set("text", year.toString());
+
+    am5.array.each(series.dataItems, function (dataItem) {
+      var category = dataItem.get("categoryY");
+      var value = allData[year][category];
+
+      if (value > 0) {
+        itemsWithNonZero++;
+      }
+
+      dataItem.animate({
+        key: "valueX",
+        to: value,
+        duration: stepDuration,
+        easing: am5.ease.linear
+      });
+      dataItem.animate({
+        key: "valueXWorking",
+        to: value,
+        duration: stepDuration,
+        easing: am5.ease.linear
+      });
+    });
+
+    yAxis.zoom(0, itemsWithNonZero / yAxis.dataItems.length);
+  }
+}
+
+setInitialData();
+setTimeout(function () {
+  year++;
+  updateData();
+}, 50);
+
+// Make stuff animate on load
+// https://www.amcharts.com/docs/v5/concepts/animations/
+series.appear(1000);
+chart.appear(1000, 100);
+</script>
+
+</html>
